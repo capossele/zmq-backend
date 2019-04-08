@@ -8,6 +8,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/capossele/zmq-backend/dao"
+	"github.com/capossele/zmq-backend/models"
+
 	"github.com/capossele/zmq-backend/handlers"
 	"github.com/gorilla/mux"
 	"github.com/iotaledger/iota.go/transaction"
@@ -143,7 +146,12 @@ func zmqService() {
 		if data[0] == "tx" {
 			hash := data[1]
 			timestampMap[hash] = nowMillis - timeOffset
-			fmt.Println(data[0], hash, timestampMap[hash])
+			//fmt.Println(data[0], hash, timestampMap[hash])
+
+			var tx models.Tx
+			tx.Hash = hash
+			tx.Timestamp = timestampMap[hash]
+			go dao.InsertOneValue(tx)
 			//i++
 		} else if data[0] == "tx_trytes" {
 			txObject, err := transaction.AsTransactionObject(data[1])
