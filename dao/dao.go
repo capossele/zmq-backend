@@ -73,8 +73,8 @@ func GetAllTxs() []models.Tx {
 	// Pass these options to the Find method
 	findOptions := options.Find()
 	//findOptions.SetLimit(2)
-
 	cur, err := db.Collection(COLLNAME).Find(context.TODO(), nil, findOptions)
+	fmt.Println(cur)
 	if err != nil {
 		fmt.Println("first line")
 		log.Fatal(err)
