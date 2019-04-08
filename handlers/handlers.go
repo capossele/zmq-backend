@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/capossele/zmq-backend/dao"
@@ -48,4 +49,9 @@ func CreateTxEndpoint(w http.ResponseWriter, r *http.Request) {
 // DeleteAllTxsEndpoints deletes a tx
 func DeleteAllTxsEndpoints(w http.ResponseWriter, r *http.Request) {
 	dao.DeleteAllTxs()
+}
+
+// Index returns the index page
+func Index(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "ZMQ IOTA service")
 }

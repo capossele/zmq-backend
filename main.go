@@ -83,6 +83,7 @@ func main() {
 
 func mongoService() {
 	router := mux.NewRouter()
+	router.HandleFunc("/", handlers.Index)
 	router.HandleFunc("/txs", handlers.GetAllTxsEndpoint).Methods("GET")
 	router.HandleFunc("/txs/{hash}", handlers.GetTxEndpoint).Methods("GET")
 	router.HandleFunc("/txs", handlers.CreateTxEndpoint).Methods("POST")
