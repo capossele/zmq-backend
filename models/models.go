@@ -1,4 +1,4 @@
-package scheme
+package models
 
 type Tx struct {
 	Hash      string `json:"hash,omitempty"`
