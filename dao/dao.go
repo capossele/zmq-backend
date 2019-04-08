@@ -4,11 +4,13 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/capossele/zmq-backend/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/x/bsonx"
 )
 
 // CONNECTIONSTRING DB connection string
@@ -44,6 +46,9 @@ func init() {
 
 	// Collection types can be used to access the database
 	db = client.Database(DBNAME)
+
+	//populate index
+	PopulateIndex(DBNAME, COLLNAME, client)
 
 }
 
@@ -141,3 +146,19 @@ func DeleteAllTxs() {
 // 		log.Fatal(err)
 // 	}
 // }
+
+func PopulateIndex(database, collection string, client *mongo.Client) {
+	c := client.Database(database).Collection(collection)
+	opts := options.CreateIndexes().SetMaxTime(10 * time.Second)
+	index := yieldIndexModel()
+	c.Indexes().CreateOne(context.Background(), index, opts)
+	log.Println("Successfully created hash index")
+}
+
+func yieldIndexModel() mongo.IndexModel {
+	keys := bsonx.Doc{{Key: "hash", Value: bsonx.Int32(1)}}
+	index := mongo.IndexModel{}
+	index.Keys = keys
+	//index.Options = bsonx.Doc{{Key: "unique", Value: bsonx.Boolean(true)}}
+	return index
+}
