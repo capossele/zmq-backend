@@ -74,6 +74,12 @@ func init() {
 }
 
 func main() {
+	go mongoService()
+	zmqService()
+
+}
+
+func mongoService() {
 	router := mux.NewRouter()
 	router.HandleFunc("/txs", handlers.GetAllTxsEndpoint).Methods("GET")
 	router.HandleFunc("/txs/{hash}", handlers.GetTxEndpoint).Methods("GET")
@@ -81,9 +87,6 @@ func main() {
 	router.HandleFunc("/txs", handlers.DeleteAllTxsEndpoints).Methods("DELETE")
 	fmt.Println("Starting server on port 8000...")
 	log.Fatal(http.ListenAndServe(":8000", router))
-
-	zmqService()
-
 }
 
 type Tx struct {
