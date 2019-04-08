@@ -69,11 +69,10 @@ func InsertOneValue(tx models.Tx) {
 
 //GetAllTxs returns all txs from DB
 func GetAllTxs() []models.Tx {
-	fmt.Println("entering GetAllTxs")
 	cur, err := db.Collection(COLLNAME).Find(context.Background(), nil, nil)
 	if err != nil {
-		log.Fatal(err)
 		fmt.Println("first line")
+		log.Fatal(err)
 	}
 	var elements []models.Tx
 	var elem models.Tx
@@ -81,14 +80,14 @@ func GetAllTxs() []models.Tx {
 	for cur.Next(context.Background()) {
 		err := cur.Decode(&elem)
 		if err != nil {
-			log.Fatal(err)
 			fmt.Println("second line")
+			log.Fatal(err)
 		}
 		elements = append(elements, elem)
 	}
 	if err := cur.Err(); err != nil {
-		log.Fatal(err)
 		fmt.Println("third line")
+		log.Fatal(err)
 	}
 	cur.Close(context.Background())
 	return elements
