@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
@@ -76,6 +77,14 @@ func init() {
 }
 
 func main() {
+
+	f, err := os.OpenFile("log.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatalf("error opening file: %v", err)
+	}
+	defer f.Close()
+	log.SetOutput(f)
+
 	go mongoService()
 	zmqService()
 
@@ -113,7 +122,6 @@ type Tx struct {
 
 func zmqService() {
 	pubEndpoint := "tcp://127.0.0.1:5556"
-
 	topics := "tx"
 
 	subSock, err := czmq.NewSub(pubEndpoint, topics)
@@ -125,8 +133,8 @@ func zmqService() {
 
 	fmt.Println("Starting ZMQ service...")
 	fmt.Printf("Collecting updates from IRI Node for %s…\n", topics)
-	subSock.Connect(pubEndpoint)
 
+	subSock.Connect(pubEndpoint)
 	timestampMap := make(map[trinary.Hash]int64)
 	//trytesMap := make(map[trinary.Hash]trinary.Trytes)
 	//var timeOffset int64

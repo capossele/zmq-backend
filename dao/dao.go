@@ -66,7 +66,7 @@ func init() {
 
 // InsertOneValue inserts one item from Tx model
 func InsertOneValue(tx models.Tx) {
-	fmt.Println(tx)
+	log.Println(tx)
 	filter := bson.D{
 		{"hash", tx.Hash},
 	}
