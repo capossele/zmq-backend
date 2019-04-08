@@ -62,11 +62,17 @@ func init() {
 // InsertOneValue inserts one item from Tx model
 func InsertOneValue(tx models.Tx) {
 	fmt.Println(tx)
+	update := bson.D{
+		{"$set", bson.D{
+			{"hash", tx.Hash},
+			{"timestamp", tx.Timestamp},
+		}},
+	}
 	updateOptions := options.Update()
 	updateOptions.SetUpsert(true)
 	//findOptions.SetLimit(2)
 	//_, err := db.Collection(COLLNAME).InsertOne(context.Background(), tx)
-	_, err := db.Collection(COLLNAME).UpdateOne(context.Background(), tx, updateOptions)
+	_, err := db.Collection(COLLNAME).UpdateOne(context.Background(), tx, update, updateOptions)
 	if err != nil {
 		log.Fatal(err)
 	}
