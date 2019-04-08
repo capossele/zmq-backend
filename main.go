@@ -7,9 +7,9 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"zmq-backend/handlers"
-
-	"github.com/capossele/zmq-backend/models"
+	
+	"github.com/capossele/zmq-backend/handlers"
+	"github.com/capossele/zmq-backend/scheme"
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
