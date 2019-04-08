@@ -69,6 +69,7 @@ func InsertOneValue(tx models.Tx) {
 
 //GetAllTxs returns all txs from DB
 func GetAllTxs() []models.Tx {
+	fmt.Println("entering GetAllTxs")
 	cur, err := db.Collection(COLLNAME).Find(context.Background(), nil, nil)
 	if err != nil {
 		log.Fatal(err)
