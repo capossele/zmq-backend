@@ -69,7 +69,12 @@ func InsertOneValue(tx models.Tx) {
 
 //GetAllTxs returns all txs from DB
 func GetAllTxs() []models.Tx {
-	cur, err := db.Collection(COLLNAME).Find(context.Background(), nil, nil)
+
+	// Pass these options to the Find method
+	findOptions := options.Find()
+	//findOptions.SetLimit(2)
+
+	cur, err := db.Collection(COLLNAME).Find(context.TODO(), nil, findOptions)
 	if err != nil {
 		fmt.Println("first line")
 		log.Fatal(err)
@@ -77,7 +82,7 @@ func GetAllTxs() []models.Tx {
 	var elements []models.Tx
 	var elem models.Tx
 	// Get the next result from the cursor
-	for cur.Next(context.Background()) {
+	for cur.Next(context.TODO()) {
 		err := cur.Decode(&elem)
 		if err != nil {
 			fmt.Println("second line")
@@ -89,7 +94,7 @@ func GetAllTxs() []models.Tx {
 		fmt.Println("third line")
 		log.Fatal(err)
 	}
-	cur.Close(context.Background())
+	cur.Close(context.TODO())
 	return elements
 }
 
