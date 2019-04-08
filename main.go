@@ -112,7 +112,7 @@ type Tx struct {
 }
 
 func zmqService() {
-	pubEndpoint := "tcp://35.246.106.61:5556"
+	pubEndpoint := "tcp://127.0.0.1:5556"
 
 	topics := "tx"
 
@@ -123,12 +123,13 @@ func zmqService() {
 
 	defer subSock.Destroy()
 
+	fmt.Println("Starting ZMQ service...")
 	fmt.Printf("Collecting updates from IRI Node for %s…\n", topics)
 	subSock.Connect(pubEndpoint)
 
 	timestampMap := make(map[trinary.Hash]int64)
 	//trytesMap := make(map[trinary.Hash]trinary.Trytes)
-	var timeOffset int64
+	//var timeOffset int64
 	//for i := 0; i < 1000; {
 	for {
 		msg, _, err := subSock.RecvFrame()
@@ -139,13 +140,13 @@ func zmqService() {
 		data := strings.Split(string(msg), " ")
 		now := time.Now()
 		nowMillis := now.UnixNano() /// 1000000
-		if timeOffset == 0 {
-			timeOffset = nowMillis
-		}
+		//if timeOffset == 0 {
+		//	timeOffset = nowMillis
+		//}
 
 		if data[0] == "tx" {
 			hash := data[1]
-			timestampMap[hash] = nowMillis - timeOffset
+			timestampMap[hash] = nowMillis //- timeOffset
 			//fmt.Println(data[0], hash, timestampMap[hash])
 
 			var tx models.Tx
