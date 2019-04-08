@@ -82,7 +82,7 @@ func main() {
 	fmt.Println("Starting server on port 8000...")
 	log.Fatal(http.ListenAndServe(":8000", router))
 
-	go zmqService()
+	zmqService()
 
 }
 
