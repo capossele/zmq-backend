@@ -38,9 +38,9 @@ func CreateTxEndpoint(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(tx)
 }
 
-// DeleteTxEndpoint deletes a tx
-func DeleteTxEndpoint(w http.ResponseWriter, r *http.Request) {
-	var tx models.Tx
-	_ = json.NewDecoder(r.Body).Decode(&tx)
-	dao.DeleteTx(tx)
-}
+// // DeleteTxEndpoint deletes a tx
+// func DeleteTxEndpoint(w http.ResponseWriter, r *http.Request) {
+// 	var tx models.Tx
+// 	_ = json.NewDecoder(r.Body).Decode(&tx)
+// 	dao.DeleteTx(tx)
+// }

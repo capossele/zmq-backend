@@ -47,16 +47,16 @@ func init() {
 }
 
 // InsertManyValues inserts many items from byte slice
-func InsertManyValues(txs []models.Tx) {
-	var ppl []interface{}
-	for _, p := range txs {
-		ppl = append(ppl, p)
-	}
-	_, err := db.Collection(COLLNAME).InsertMany(context.Background(), ppl)
-	if err != nil {
-		log.Fatal(err)
-	}
-}
+// func InsertManyValues(txs []models.Tx) {
+// 	var ppl []interface{}
+// 	for _, p := range txs {
+// 		ppl = append(ppl, p)
+// 	}
+// 	_, err := db.Collection(COLLNAME).InsertMany(context.Background(), ppl)
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// }
 
 // InsertOneValue inserts one item from Tx model
 func InsertOneValue(tx models.Tx) {
@@ -67,11 +67,12 @@ func InsertOneValue(tx models.Tx) {
 	}
 }
 
-// GetAllTxs returns all txs from DB
+//GetAllTxs returns all txs from DB
 func GetAllTxs() []models.Tx {
 	cur, err := db.Collection(COLLNAME).Find(context.Background(), nil, nil)
 	if err != nil {
 		log.Fatal(err)
+		fmt.Println("first line")
 	}
 	var elements []models.Tx
 	var elem models.Tx
@@ -80,21 +81,23 @@ func GetAllTxs() []models.Tx {
 		err := cur.Decode(&elem)
 		if err != nil {
 			log.Fatal(err)
+			fmt.Println("second line")
 		}
 		elements = append(elements, elem)
 	}
 	if err := cur.Err(); err != nil {
 		log.Fatal(err)
+		fmt.Println("third line")
 	}
 	cur.Close(context.Background())
 	return elements
 }
 
-// GetAllTxs returns all txs from DB
+// GetTx returns a given tx from DB
 func GetTx(hash string) models.Tx {
 	var result models.Tx
 	filter := bson.D{{"hash", hash}}
-	fmt.Println("Looking for", hash, filter)
+	//fmt.Println("Looking for", hash, filter)
 	err := db.Collection(COLLNAME).FindOne(context.TODO(), filter).Decode(&result)
 	if err != nil {
 		//log.Fatal(err)
@@ -105,9 +108,9 @@ func GetTx(hash string) models.Tx {
 }
 
 // DeleteTx deletes an existing tx
-func DeleteTx(tx models.Tx) {
-	_, err := db.Collection(COLLNAME).DeleteOne(context.Background(), tx, nil)
-	if err != nil {
-		log.Fatal(err)
-	}
-}
+// func DeleteTx(tx models.Tx) {
+// 	_, err := db.Collection(COLLNAME).DeleteOne(context.Background(), tx, nil)
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// }

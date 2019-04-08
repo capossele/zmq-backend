@@ -2,14 +2,11 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 
 	"github.com/capossele/zmq-backend/handlers"
-	"github.com/capossele/zmq-backend/models"
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -27,7 +24,7 @@ const CONNECTIONSTRING = "mongodb://localhost:27017"
 func init() {
 	// Populates database with dummy data
 
-	var txs []models.Tx
+	//var txs []models.Tx
 
 	clientOptions := options.Client().ApplyURI(CONNECTIONSTRING)
 
@@ -48,26 +45,26 @@ func init() {
 	//fmt.Println("Connected to MongoDB!")
 
 	// Collection types can be used to access the database
-	db := client.Database(DBNAME)
+	//db := client.Database(DBNAME)
 
 	// Load values from JSON file to model
-	byteValues, err := ioutil.ReadFile("tx_data.json")
-	if err != nil {
-		log.Fatal(err)
-	}
-	json.Unmarshal(byteValues, &txs)
+	// byteValues, err := ioutil.ReadFile("tx_data.json")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// json.Unmarshal(byteValues, &txs)
 
-	// Insert txs into DB
-	var transactions []interface{}
-	for _, t := range txs {
-		transactions = append(transactions, t)
-	}
-	_, err = db.Collection(COLLECTION).InsertMany(context.Background(), transactions)
-	if err != nil {
-		log.Fatal(err)
-	} else {
-		fmt.Println("demo tx loaded correctly")
-	}
+	// // Insert txs into DB
+	// var transactions []interface{}
+	// for _, t := range txs {
+	// 	transactions = append(transactions, t)
+	// }
+	// _, err = db.Collection(COLLECTION).InsertMany(context.Background(), transactions)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// } else {
+	// 	fmt.Println("demo tx loaded correctly")
+	// }
 }
 
 func main() {
@@ -75,7 +72,7 @@ func main() {
 	router.HandleFunc("/txs", handlers.GetAllTxsEndpoint).Methods("GET")
 	router.HandleFunc("/txs/{hash}", handlers.GetTxEndpoint).Methods("GET")
 	router.HandleFunc("/txs", handlers.CreateTxEndpoint).Methods("POST")
-	router.HandleFunc("/txs", handlers.DeleteTxEndpoint).Methods("DELETE")
+	//router.HandleFunc("/txs", handlers.DeleteTxEndpoint).Methods("DELETE")
 	fmt.Println("Starting server on port 8000...")
 	log.Fatal(http.ListenAndServe(":8000", router))
 }
