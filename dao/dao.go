@@ -4,7 +4,8 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"zmq-backend/models"
+
+	"github.com/capossele/zmq-backend/models"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"

@@ -3,8 +3,9 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
-	"zmq-backend/dao"
-	"zmq-backend/models"
+
+	"github.com/capossele/zmq-backend/dao"
+	"github.com/capossele/zmq-backend/models"
 
 	"github.com/gorilla/mux"
 )
