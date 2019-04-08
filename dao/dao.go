@@ -97,7 +97,7 @@ func GetTx(hash string) models.Tx {
 	fmt.Println("Looking for", hash, filter)
 	err := db.Collection(COLLNAME).FindOne(context.TODO(), filter).Decode(&result)
 	if err != nil {
-		log.Fatal(err)
+		//log.Fatal(err)
 	}
 
 	return result
