@@ -44,6 +44,7 @@ func init() {
 
 	// Collection types can be used to access the database
 	db = client.Database(DBNAME)
+
 }
 
 // InsertManyValues inserts many items from byte slice
@@ -61,7 +62,11 @@ func init() {
 // InsertOneValue inserts one item from Tx model
 func InsertOneValue(tx models.Tx) {
 	fmt.Println(tx)
-	_, err := db.Collection(COLLNAME).InsertOne(context.Background(), tx)
+	updateOptions := options.Update()
+	updateOptions.SetUpsert(true)
+	//findOptions.SetLimit(2)
+	//_, err := db.Collection(COLLNAME).InsertOne(context.Background(), tx)
+	_, err := db.Collection(COLLNAME).UpdateOne(context.Background(), tx, updateOptions)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -110,6 +115,14 @@ func GetTx(hash string) models.Tx {
 
 	return result
 
+}
+
+// DeleteAllTxs deletes all existing txs
+func DeleteAllTxs() {
+	_, err := db.Collection(COLLNAME).DeleteMany(context.Background(), bson.D{}, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 // DeleteTx deletes an existing tx

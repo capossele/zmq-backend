@@ -44,3 +44,8 @@ func CreateTxEndpoint(w http.ResponseWriter, r *http.Request) {
 // 	_ = json.NewDecoder(r.Body).Decode(&tx)
 // 	dao.DeleteTx(tx)
 // }
+
+// DeleteAllTxsEndpoints deletes a tx
+func DeleteAllTxsEndpoints(w http.ResponseWriter, r *http.Request) {
+	dao.DeleteAllTxs()
+}
