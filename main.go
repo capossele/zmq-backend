@@ -13,7 +13,6 @@ import (
 
 	"github.com/capossele/zmq-backend/handlers"
 	"github.com/gorilla/mux"
-	"github.com/iotaledger/iota.go/transaction"
 	"github.com/iotaledger/iota.go/trinary"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -127,7 +126,7 @@ func zmqService() {
 	subSock.Connect(pubEndpoint)
 
 	timestampMap := make(map[trinary.Hash]int64)
-	trytesMap := make(map[trinary.Hash]trinary.Trytes)
+	//trytesMap := make(map[trinary.Hash]trinary.Trytes)
 	var timeOffset int64
 	//for i := 0; i < 1000; {
 	for {
@@ -154,23 +153,23 @@ func zmqService() {
 			go dao.InsertOneValue(tx)
 			//i++
 		} else if data[0] == "tx_trytes" {
-			txObject, err := transaction.AsTransactionObject(data[1])
-			if err != nil {
-				//log.Fatal(err)
-				fmt.Println("ERROR on AsTransactionObject", err)
-			}
-			txObject.AttachmentTimestamp = timestampMap[txObject.Hash]
-			trytes, err := transaction.TransactionToTrytes(txObject)
-			if err != nil {
-				//log.Fatal(err)
-				fmt.Println("ERROR on TransactionToTrytes", err)
-			}
-			trytesMap[txObject.Hash] = trytes
-			//i++
+			// txObject, err := transaction.AsTransactionObject(data[1])
+			// if err != nil {
+			// 	//log.Fatal(err)
+			// 	fmt.Println("ERROR on AsTransactionObject", err)
+			// }
+			// txObject.AttachmentTimestamp = timestampMap[txObject.Hash]
+			// trytes, err := transaction.TransactionToTrytes(txObject)
+			// if err != nil {
+			// 	//log.Fatal(err)
+			// 	fmt.Println("ERROR on TransactionToTrytes", err)
+			// }
+			// trytesMap[txObject.Hash] = trytes
+			// //i++
 		}
 	}
-	for k, v := range timestampMap {
-		fmt.Println(k, v)
-	}
-	fmt.Println(trytesMap)
+	// for k, v := range timestampMap {
+	// 	fmt.Println(k, v)
+	// }
+	// fmt.Println(trytesMap)
 }
