@@ -71,9 +71,9 @@ func InsertOneValue(tx models.Tx) {
 func GetAllTxs() []models.Tx {
 
 	// Pass these options to the Find method
-	findOptions := options.Find()
+	//findOptions := options.Find()
 	//findOptions.SetLimit(2)
-	cur, err := db.Collection(COLLNAME).Find(context.TODO(), nil, findOptions)
+	cur, err := db.Collection(COLLNAME).Find(context.TODO(), bson.D{})
 	fmt.Println(cur)
 	if err != nil {
 		fmt.Println("first line")
