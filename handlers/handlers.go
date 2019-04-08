@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/capossele/zmq-backend/dao"
-	"github.com/capossele/zmq-backend/scheme"
+	"github.com/capossele/zmq-backend/models"
 
 	"github.com/gorilla/mux"
 )
